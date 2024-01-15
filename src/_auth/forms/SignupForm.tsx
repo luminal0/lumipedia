@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { signUpValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/loader";
 import { Link } from "react-router-dom";
+import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignupForm = () => {
   const isLoading = false;
@@ -25,19 +26,18 @@ const SignupForm = () => {
   const form = useForm<z.infer<typeof signUpValidation>>({
     resolver: zodResolver(signUpValidation),
     defaultValues: {
-      Name: "",
-      Username: "",
-      Email: "",
-      Password: "",
+      name: "",
+      username: "",
+      email: "",
+      password: "",
     },
   });
 
-  // 2. Define a submit handler.
+  // 2. Define a submit handler.  
   async function onSubmit(values: z.infer<typeof signUpValidation>) {
-  
-    // const newUser = await createUserAccount(values);
+    const newUser = await createUserAccount(values);
 
-    console.log(values);
+    console.log(newUser);
   }
 
   return (
@@ -57,7 +57,7 @@ const SignupForm = () => {
         >
           <FormField
             control={form.control}
-            name="Name"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
@@ -71,7 +71,7 @@ const SignupForm = () => {
           />
           <FormField
             control={form.control}
-            name="Username"
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
@@ -85,7 +85,7 @@ const SignupForm = () => {
           />
           <FormField
             control={form.control}
-            name="Email"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -99,7 +99,7 @@ const SignupForm = () => {
           />
           <FormField
             control={form.control}
-            name="Password"
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
@@ -119,9 +119,9 @@ const SignupForm = () => {
             ) : (
               "Sign Up"
             )}
-            Already have an account?
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
+            Already have an account?
             <Link to="/sign-in" className="text-primary-500 text-small-semibold ml-1">Login</Link>
           </p>
         </form>
