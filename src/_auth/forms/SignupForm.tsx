@@ -3,7 +3,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
@@ -17,12 +17,16 @@ import { Input } from "@/components/ui/input";
 import { signUpValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/loader";
 import { Link } from "react-router-dom";
-import { createUserAccount } from "@/lib/appwrite/api";
+import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutation";
 
 const SignupForm = () => {
-  const isLoading = false;
-  const { toast } = useToast()
+  const { toast } = useToast();
 
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
+    useCreateUserAccount();
+
+  const { mutateAsync: signInAccount, isLoading: isSigningIn } =
+    useSignInAccount();
 
   // 1. Define your form.
 
@@ -36,15 +40,22 @@ const SignupForm = () => {
     },
   });
 
-  // 2. Define a submit handler.  
+  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof signUpValidation>) {
     const newUser = await createUserAccount(values);
 
-    if(!newUser) {
-      return toast ({title : 'Sign up failed. Please try again'})  
-   }
+    if (!newUser) {
+      return toast({ title: "Sign up failed. Please try again" });
+    }
 
-   const session = await signInAccount()
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    })
+    
+    if(!session) {
+      return toast({ title: 'Sign in failed. Please try again.'})
+    } 
   }
 
   return (
@@ -119,7 +130,7 @@ const SignupForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isLoading ? (
+            {isCreatingUser ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
@@ -129,7 +140,12 @@ const SignupForm = () => {
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
             Already have an account?
-            <Link to="/sign-in" className="text-primary-500 text-small-semibold ml-1">Login</Link>
+            <Link
+              to="/sign-in"
+              className="text-primary-500 text-small-semibold ml-1"
+            >
+              Login
+            </Link>
           </p>
         </form>
       </div>
