@@ -60,7 +60,6 @@ export async function signInAccount(user: { email: string; password: string }) {
   }
 }
 
-
 export async function getCurrentUser() {
   try {
     const currentAccount = await account.get();
@@ -69,7 +68,8 @@ export async function getCurrentUser() {
 
     const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId[
+      appwriteConfig.userCollectionId,
+      [
         Query.equal("accountId", currentAccount.$id)
       ]
     );

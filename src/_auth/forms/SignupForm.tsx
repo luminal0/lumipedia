@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { signUpValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/loader";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useCreateUserAccount,
   useSignInAccount,
@@ -67,7 +67,7 @@ const SignupForm = () => {
     if (isLoggedIn) {
       form.reset();
 
-      navigate("/")
+      navigate("/sign-in");
     } else {
       return toast({ title: "Sign Up failed please try again." });
     }
