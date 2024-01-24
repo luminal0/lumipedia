@@ -17,17 +17,14 @@ import { Input } from "@/components/ui/input";
 import { signInValidation } from "@/lib/validation";
 import Loader from "@/components/ui/shared/loader";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  useSignInAccount,
-} from "@/lib/react-query/queriesAndMutation";
+import { useSignInAccount } from "@/lib/react-query/queriesAndMutation";
 import { useUserContext } from "@/context/AuthContext";
 
 const SigninForm = () => {
   const { toast } = useToast();
-  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const navigate = useNavigate;
-  const { mutateAsync: signInAccount } =
-    useSignInAccount();
+  const { mutateAsync: signInAccount } = useSignInAccount();
 
   // 1. Define your form.
 
@@ -41,28 +38,29 @@ const SigninForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof signInValidation>) {
-
     const session = await signInAccount({
       email: values.email,
       password: values.password,
     });
 
     if (!session) {
-      return toast({ title: "Sign in failed. Please try again." });
+      toast({ title: "Login failed. Please try again." });
+      
+      return;
     }
 
     const isLoggedIn = await checkAuthUser();
 
-    
     if (isLoggedIn) {
       form.reset();
 
-      
-      navigate("/");
+      navigate('/sign-up');
     } else {
-      return toast({ title: "Sign In failed please try again." });
+      toast({ title: "Login failed. Please try again.", });
+      
+      return;
     }
-  }
+  };
 
   return (
     <Form {...form}>
@@ -79,7 +77,6 @@ const SigninForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-5 w-full mt-4"
         >
-         
           <FormField
             control={form.control}
             name="email"
@@ -118,7 +115,7 @@ const SigninForm = () => {
             )}
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
-              Don't have an account? 
+            Don't have an account?
             <Link
               to="/sign-up"
               className="text-primary-500 text-small-semibold ml-1"
