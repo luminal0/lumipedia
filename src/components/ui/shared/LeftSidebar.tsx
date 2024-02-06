@@ -9,7 +9,7 @@ import { INavLink } from "@/types";
 const LeftSideBar = () => {
   const { pathname } = useLocation();
   const { mutate: signOut, isSuccess } = useSignOutAccount();
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const { user } = useUserContext();
 
   useEffect(() => {
