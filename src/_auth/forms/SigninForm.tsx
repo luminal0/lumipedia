@@ -23,7 +23,7 @@ import { useUserContext } from "@/context/AuthContext";
 const SigninForm = () => {
   const { toast } = useToast();
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const { mutateAsync: signInAccount } = useSignInAccount();
 
   // 1. Define your form.
@@ -54,7 +54,7 @@ const SigninForm = () => {
     if (isLoggedIn) {
       form.reset();
 
-      navigate('/sign-up');
+      navigate("/");
     } else {
       toast({ title: "Login failed. Please try again.", });
       
