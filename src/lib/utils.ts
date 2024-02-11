@@ -5,7 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
 export function formatDate(dateString: string): string {
   const currentDate: Date = new Date();
   const inputDate: Date = new Date(dateString);
@@ -28,3 +27,7 @@ export function formatDate(dateString: string): string {
     return `${days} days ago`;
   }
 }
+
+export const checkIsLiked = (likeList: string[], userId: string) => {
+  return likeList.includes(userId);
+};
