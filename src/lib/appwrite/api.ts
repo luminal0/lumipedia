@@ -199,15 +199,15 @@ export async function likePost(postId: string, likesArray: string[]) {
       appwriteConfig.postCollectionId,
       postId,
       {
-        likes: likesArray
+        likes: likesArray,
       }
-    )
+    );
 
-    if(!updatedPost) throw Error;
-    
-    return updatedPost
+    if (!updatedPost) throw Error;
+
+    return updatedPost;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
 

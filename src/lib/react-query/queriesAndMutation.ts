@@ -3,9 +3,8 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
-  useInfiniteQuery,
 } from "@tanstack/react-query";
-import { createPost, createUserAccount, deleteSavedPost, getRecentPost, likePost, savePost, signInAccount, signOutAccount } from "../appwrite/api";
+import { createPost, createUserAccount, deleteSavedPost, getCurrentUser, getRecentPost, likePost, savePost, signInAccount, signOutAccount } from "../appwrite/api";
 import { QUERY_KEYS } from './queryKeys';
 
 export const useCreateUserAccount = () => {
@@ -107,5 +106,12 @@ export const useDeleteSavePost = () => {
         queryKey: [QUERY_KEYS.GET_CURRENT_USER]
       })
     }
+  })
+}
+
+export const useGetCurrentUser = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+    queryFn: getCurrentUser
   })
 }
