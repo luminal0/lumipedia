@@ -1,5 +1,3 @@
-import { useUserContext } from "@/context/AuthContext";
-import { likePost } from "@/lib/appwrite/api";
 import {
   useDeleteSavePost,
   useGetCurrentUser,
