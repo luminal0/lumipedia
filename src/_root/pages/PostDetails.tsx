@@ -8,7 +8,7 @@ import { Link, useParams } from "react-router-dom";
 
 const PostDetails = () => {
   const { id } = useParams();
-  const { data: post, isPending } = useGetPostById(id || "");
+  const { data: post, isPending } = useGetPostById(id ||"");
   const { user } = useUserContext();
 
   const handleDeletePost = () => {};
