@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import useDebounce from "../../../hooks/useDebounce";
 import Loader from "@/components/ui/shared/loader";
-import { useInView } from "react-intersection-observer";}
+import { useInView } from "react-intersection-observer";
 
 const Explore = () => {
   const { ref, inView } = useInView();
